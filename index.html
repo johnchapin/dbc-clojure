@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Clojure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Clojure: An Elegant Weapon
+
+![](http://imgs.xkcd.com/comics/lisp_cycles.png "I've just received word that the Emperor has dissolved the MIT computer science program permanently.")
+
+### Dev Bootcamp, September 2014
+
+@johnchapin
+
+???
+
+Poll the audience:
+
+- Who has heard of Lisp?
+- Who has heard of Clojure before?
+- Who has used Clojure before?
+
+---
+
+class: center, middle
+
+# Clojure is... **Functional**
+
+![](http://imgs.xkcd.com/comics/functional.png)
+
+???
+
+- What is "functional"?
+- Part of the Lisp family
+- What is Lisp used for? AI, academia, Crash Bandicoot
+- Other examples of Lisp languages (Common Lisp, Scheme, Racket)
+
+---
+
+class: center, middle
+
+# Clojure has **First-class Concurrency**
+
+![](http://dilbert.com/dyn/str_strip/000000000/00000000/0000000/000000/00000/0000/000/8/8.strip.gif)
+
+???
+
+- What is concurrency?
+
+---
+
+class: center, middle
+
+# Clojure **runs on the JVM**
+
+# Runs on the JVM
+
+???
+
+- What is the JVM?
+
+---
+
+## Code is Data
+
+#### Forms
+
+```clojure
+1, 1.0, 1N   ; Long (integer), Double (float), BigInt
+true         ; Boolean
+\a, "string" ; Character, String
+:foo         ; Keyword
+[1 2 3]      ; Vector
+'(1 2 3)     ; List
+{:a 1 :b 2}  ; Map
+#{:a :b :c}  ; Set
+```
+
+#### Symbols
+
+```clojure
+(def a "foo")
+```
+
+#### Operations
+
+```clojure
+(println "Hello, world!")
+```
+
+```clojure
+(+ 1 2)
+```
+
+???
+
+- Clojure reader
+- commas, comments
+
+LIVE CODING
+
+(println "Hello, world!")
+(+ 1 2)
+(+ 1 2 3)
+(def a "foo")
+(def b 1)
+
+---
+
+class: center
+
+![](http://imgs.xkcd.com/comics/lisp.jpg "We lost the documentation on quantum mechanics.  You'll have to decode the regexes yourself.")
+
+### http://www.clojure.org
+
+### http://johnchapin.boostrot.net/dbc-clojure/
+
+---
+
+# Questions?
+
+    </textarea>
+    <script src="remark-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var slideshow = remark.create();
+      </script>
+    </body>
+  </html>
