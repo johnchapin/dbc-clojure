@@ -23,62 +23,146 @@ class: center, middle
 
 # Clojure: An Elegant Weapon
 
-![](http://imgs.xkcd.com/comics/lisp_cycles.png "I've just received word that the Emperor has dissolved the MIT computer science program permanently.")
-
 ### Dev Bootcamp, September 2014
 
 @johnchapin
 
 ???
 
-Poll the audience:
+# Speaker background
 
-- Who has heard of Lisp?
-- Who has heard of Clojure before?
-- Who has used Clojure before?
-
----
-
-class: center, middle
-
-# Clojure is... **Functional**
-
-![](http://imgs.xkcd.com/comics/functional.png)
-
-???
-
-- What is "functional"?
-- Part of the Lisp family
-- What is Lisp used for? AI, academia, Crash Bandicoot
-- Other examples of Lisp languages (Common Lisp, Scheme, Racket)
+- ~15 years as a software developer
+- First paying gig was Perl
+- First full-time job was C
+- One ugly Rails app
+- Last ~5 years doing startups
+- Mainly Java and Clojure now (large API-driven backends, Big Data / ML)
+- Intent Media, NYC
 
 ---
 
 class: center, middle
 
-# Clojure has **First-class Concurrency**
-
-![](http://dilbert.com/dyn/str_strip/000000000/00000000/0000000/000000/00000/0000/000/8/8.strip.gif)
+![](http://imgs.xkcd.com/comics/lisp_cycles.png "I've just received word that the Emperor has dissolved the MIT computer science program permanently.")
 
 ???
 
-- What is concurrency?
+"I've just received word that the Emperor has dissolved the MIT computer science program permanently."
+
+---
+
+## Lisp, 1958
+## Scheme, 1975
+## Common Lisp, 1984
+## Racket, 1994
+## Arc, 2001
+## Clojure, 2007
+
+AutoLISP, EuLisp, Franz Lisp, Interlisp, ISLISP, LeLisp, LFE, Maclisp, MDL, Newlisp, NIL, Picolisp, Portable Standard Lisp, SKILL, Spice Lisp, T, XLISP, Zetalisp
+
+???
+
+## Lisp
+
+- Second-oldest high-level language, one year younger than Fortran
+
+## Clojure
+
+- Rich Hickey
+
+## Poll the audience:
+
+- Who has heard of any of these before today?
+- Who has used any of these?
 
 ---
 
 class: center, middle
 
-# Clojure **runs on the JVM**
+<img src="CrashBandicoot.png" height="200"/>
 
-# Runs on the JVM
+<img src="terminator.jpg" height="200"/>
+
+<img src="y-combinator-hacker-news.png"/>
 
 ???
 
-- What is the JVM?
+## Crash Bandicoot
+
+- Developed using Goal Oriented Object LISP by Naughty Dog Software
+
+## AI
+
+- Cyc
+- Copycat, Metacat, etc... (Douglas Hofstader, U of Indiana)
+
+Hacker News uses Arc (developed by Paul Graham)
 
 ---
 
-## Code is Data
+# Lisp languages are...
+
+- ## Functional
+- ## Homoiconic (code is data)
+
+# Clojure adds...
+
+- ## "First-class" concurrency
+- ## Java interoperability
+
+???
+
+Functional == pure functions transforming immutable data
+
+Pure functions are referentially transparent (memoization!)
+
+Homoiconicity great for metaprogramming
+
+---
+
+# To the REPL!
+
+## Want to follow along?
+
+Install Leiningen (the Clojure build tool) using Homebrew:
+
+```bash
+$ brew install leiningen
+```
+
+Launch a REPL:
+
+```bash
+$ lein repl
+```
+
+If that worked, you should end up with a prompt:
+
+```bash
+user=>
+```
+
+???
+
+(+ 1 1) ; Symbolic expression - BREAK THIS DOWN
+
+S-Expressions are nested lists of forms
+
+(* 2 (+ 3 4)) ; Nested s-expressions
+
+---
+
+# Symbolic expressions
+
+## Nested lists
+
+```clojure
+(* 2 (+ 3 4))
+```
+
+<img src="Corrected_S-expression_tree_2.png" width="300px" />
+
+---
 
 #### Forms
 
@@ -113,28 +197,134 @@ true         ; Boolean
 
 - Clojure reader
 - commas, comments
-
-LIVE CODING
-
-(println "Hello, world!")
-(+ 1 2)
-(+ 1 2 3)
-(def a "foo")
-(def b 1)
+- Multi-arity functions (varargs)
 
 ---
 
-class: center
+# To the REPL (again)!
+
+???
+
+; Demo basic functions:
+
+(println "Hello, world!")
+
+(def a "foo")
+(def b 1)
+(def c [1 2 3])
+
+(map inc c)
+(reduce + c)
+
+; Maps are functions of their keys, and vice-versa
+
+(def m {:foo 1 :bar 2 :baz 3})
+(:foo m)
+
+(def vm [{:foo 1 :bar 2} {:foo 3 :bar 4}])
+(map :foo vm)
+
+---
+
+# Functions
+
+```clojure
+(def foo
+  (fn [i]
+    (+ i 1)))
+```
+```clojure
+(defn foo [i]
+  (+ i 1))
+```
+```clojure
+(def foo #(+ i %))
+```
+```clojure
+(def foo (partial + 1))
+```
+---
+
+# Higher-order functions
+- ### Accept functions as arguments *and/or*, return functions
+
+# Pure functions
+- ### No side-effects (a requirement and a benefit)
+- ### Referentially transparent (same input, same output)
+- ### Parallelizable
+
+---
+
+# To the REPL (yet again)!
+
+???
+
+; Another way, with a partial function
+
+(def get-foos (partial map :foo))
+
+; `get-foos` is a function that already has its first argument specified
+
+(get-foos vm)
+
+; Let's sum the values of :foo
+
+(reduce + (get-foos vm))
+
+; Composition is easy
+
+(def sum (partial reduce +))
+
+(def foo-sum (comp sum get-foos))
+
+; `foo-sum` is a composition of sum and get-foos. Evals right to left.
+
+(foo-sum vm)
+
+; Since foo-sum is a pure function, we can cache the results
+
+(def foo-sum-mem (memoize foo-sum))
+
+; Easier to see with a delay
+
+(def sleep-once (memoize (fn [ms] (Thread/sleep ms) ms)))
+
+---
+
+class: center, middle
+
+![](http://dilbert.com/dyn/str_strip/000000000/00000000/0000000/000000/00000/0000/000/8/8.strip.gif)
+
+---
+
+# Concurrency is hard (Java)
+
+BlockingDeque BlockingQueue Callable CompletionService ConcurrentMap ConcurrentNavigableMap Delayed Executor ExecutorService ForkJoinPool.ForkJoinWorkerThreadFactory ForkJoinPool.ManagedBlocker Future RejectedExecutionHandler RunnableFuture RunnableScheduledFuture ScheduledExecutorService ScheduledFuture ThreadFactory TransferQueue AbstractExecutorService ArrayBlockingQueue ConcurrentHashMap ConcurrentLinkedDeque ConcurrentLinkedQueue ConcurrentSkipListMap ConcurrentSkipListSet CopyOnWriteArrayList CopyOnWriteArraySet CountDownLatch CyclicBarrier DelayQueue Exchanger ExecutorCompletionService Executors ForkJoinPool ForkJoinTask ForkJoinWorkerThread FutureTask LinkedBlockingDeque LinkedBlockingQueue LinkedTransferQueue Phaser PriorityBlockingQueue RecursiveAction RecursiveTask ScheduledThreadPoolExecutor Semaphore SynchronousQueue ThreadLocalRandom ThreadPoolExecutor ThreadPoolExecutor.AbortPolicy ThreadPoolExecutor.CallerRunsPolicy ThreadPoolExecutor.DiscardOldestPolicy ThreadPoolExecutor.DiscardPolicy TimeUnit BrokenBarrierException CancellationException ExecutionException RejectedExecutionException TimeoutException
+
+---
+
+# Concurrency is easy (Clojure)
+
+- Atoms: atom swap! reset! compare-and-set!
+- Futures: future future-{call, done?, cancel, cancelled?} future?
+- Threads: bound-fn bound-fn* {get, push, pop}-thread-bindings thread-bound?
+- Misc: locking pcalls pvalues pmap seque promise deliver
+
+---
+
+class: center, middle
 
 ![](http://imgs.xkcd.com/comics/lisp.jpg "We lost the documentation on quantum mechanics.  You'll have to decode the regexes yourself.")
 
-### http://www.clojure.org
-
-### http://johnchapin.boostrot.net/dbc-clojure/
+http://johnchapin.boostrot.net/dbc-clojure/
 
 ---
 
 # Questions?
+
+???
+
+![](http://imgs.xkcd.com/comics/functional.png)
 
     </textarea>
     <script src="remark-latest.min.js" type="text/javascript"></script>
