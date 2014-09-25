@@ -49,26 +49,12 @@ class: center, middle
 
 "I've just received word that the Emperor has dissolved the MIT computer science program permanently."
 
----
-
 ## Lisp, 1958
-## Scheme, 1975
-## Common Lisp, 1984
-## Racket, 1994
-## Arc, 2001
-## Clojure, 2007
-
-AutoLISP, EuLisp, Franz Lisp, Interlisp, ISLISP, LeLisp, LFE, Maclisp, MDL, Newlisp, NIL, Picolisp, Portable Standard Lisp, SKILL, Spice Lisp, T, XLISP, Zetalisp
-
-???
-
-## Lisp
-
 - Second-oldest high-level language, one year younger than Fortran
 
-## Clojure
-
-- Rich Hickey
+## Java, 1995
+## Arc, 2001
+## Clojure, 2007
 
 ## Poll the audience:
 
@@ -79,11 +65,15 @@ AutoLISP, EuLisp, Franz Lisp, Interlisp, ISLISP, LeLisp, LFE, Maclisp, MDL, Newl
 
 class: center, middle
 
-<img src="CrashBandicoot.png" height="200"/>
+<div>1996&nbsp;&nbsp;&nbsp;<img src="CrashBandicoot.png" height="200" style="vertical-align:middle"/></div>
 
-<img src="terminator.jpg" height="200"/>
+&nbsp;
 
-<img src="y-combinator-hacker-news.png"/>
+<div>2007&nbsp;&nbsp;&nbsp;<img src="y-combinator-hacker-news.png" style="vertical-align:middle"/></div>
+
+&nbsp;
+
+<img src="terminator.jpg" height="200" style="vertical-align:middle"/>
 
 ???
 
@@ -96,7 +86,8 @@ class: center, middle
 - Cyc
 - Copycat, Metacat, etc... (Douglas Hofstader, U of Indiana)
 
-Hacker News uses Arc (developed by Paul Graham)
+## Hacker News
+- Arc (developed by Paul Graham)
 
 ---
 
@@ -107,8 +98,8 @@ Hacker News uses Arc (developed by Paul Graham)
 
 # Clojure adds...
 
-- ## "First-class" concurrency
-- ## Java interoperability
+- ## Java Interoperability
+- ## Concurrency
 
 ???
 
@@ -120,47 +111,31 @@ Homoiconicity great for metaprogramming
 
 ---
 
-# To the REPL!
+class: center, middle
 
-## Want to follow along?
-
-Install Leiningen (the Clojure build tool) using Homebrew:
-
-```bash
-$ brew install leiningen
-```
-
-Launch a REPL:
-
-```bash
-$ lein repl
-```
-
-If that worked, you should end up with a prompt:
-
-```bash
-user=>
-```
-
-???
-
-(+ 1 1) ; Symbolic expression - BREAK THIS DOWN
-
-S-Expressions are nested lists of forms
-
-(* 2 (+ 3 4)) ; Nested s-expressions
+![](java-program-execution2.png)
 
 ---
 
-# Symbolic expressions
+class: center, middle
 
-## Nested lists
+![](http://dilbert.com/dyn/str_strip/000000000/00000000/0000000/000000/00000/0000/000/8/8.strip.gif)
 
-```clojure
-(* 2 (+ 3 4))
-```
+---
 
-<img src="Corrected_S-expression_tree_2.png" width="300px" />
+# Concurrency is hard (Java)
+
+BlockingDeque BlockingQueue Callable CompletionService ConcurrentMap ConcurrentNavigableMap Delayed Executor ExecutorService ForkJoinPool.ForkJoinWorkerThreadFactory ForkJoinPool.ManagedBlocker Future RejectedExecutionHandler RunnableFuture RunnableScheduledFuture ScheduledExecutorService ScheduledFuture ThreadFactory TransferQueue AbstractExecutorService ArrayBlockingQueue ConcurrentHashMap ConcurrentLinkedDeque ConcurrentLinkedQueue ConcurrentSkipListMap ConcurrentSkipListSet CopyOnWriteArrayList CopyOnWriteArraySet CountDownLatch CyclicBarrier DelayQueue Exchanger ExecutorCompletionService Executors ForkJoinPool ForkJoinTask ForkJoinWorkerThread FutureTask LinkedBlockingDeque LinkedBlockingQueue LinkedTransferQueue Phaser PriorityBlockingQueue RecursiveAction RecursiveTask ScheduledThreadPoolExecutor Semaphore SynchronousQueue ThreadLocalRandom ThreadPoolExecutor ThreadPoolExecutor.AbortPolicy ThreadPoolExecutor.CallerRunsPolicy ThreadPoolExecutor.DiscardOldestPolicy ThreadPoolExecutor.DiscardPolicy TimeUnit BrokenBarrierException CancellationException ExecutionException RejectedExecutionException TimeoutException
+
+---
+
+# Concurrency is easy (Clojure)
+
+- Atoms: atom swap! reset! compare-and-set!
+- Futures: future future-{call, done?, cancel, cancelled?} future?
+- Threads: bound-fn bound-fn* {get, push, pop}-thread-bindings thread-bound?
+- Misc: locking pcalls pvalues pmap seque promise deliver
+
 
 ---
 
@@ -198,6 +173,31 @@ true         ; Boolean
 - Clojure reader
 - commas, comments
 - Multi-arity functions (varargs)
+---
+
+# To the REPL!
+
+## Want to follow along?
+
+## http://tryclj.com/
+
+???
+
+(+ 1 1) ; Symbolic expression - BREAK THIS DOWN
+
+S-Expressions are nested lists of forms
+
+(* 2 (+ 3 4)) ; Nested s-expressions
+
+---
+
+# Higher-order functions
+- ### Accept functions as arguments *and/or*, return functions
+
+# Pure functions
+- ### No side-effects (a requirement and a benefit)
+- ### Referentially transparent (same input, same output)
+- ### Parallelizable
 
 ---
 
@@ -219,39 +219,12 @@ true         ; Boolean
 ; Maps are functions of their keys, and vice-versa
 
 (def m {:foo 1 :bar 2 :baz 3})
+
 (:foo m)
 
 (def vm [{:foo 1 :bar 2} {:foo 3 :bar 4}])
+
 (map :foo vm)
-
----
-
-# Functions
-
-```clojure
-(def foo
-  (fn [i]
-    (+ i 1)))
-```
-```clojure
-(defn foo [i]
-  (+ i 1))
-```
-```clojure
-(def foo #(+ i %))
-```
-```clojure
-(def foo (partial + 1))
-```
----
-
-# Higher-order functions
-- ### Accept functions as arguments *and/or*, return functions
-
-# Pure functions
-- ### No side-effects (a requirement and a benefit)
-- ### Referentially transparent (same input, same output)
-- ### Parallelizable
 
 ---
 
@@ -293,34 +266,11 @@ true         ; Boolean
 
 class: center, middle
 
-![](http://dilbert.com/dyn/str_strip/000000000/00000000/0000000/000000/00000/0000/000/8/8.strip.gif)
-
----
-
-# Concurrency is hard (Java)
-
-BlockingDeque BlockingQueue Callable CompletionService ConcurrentMap ConcurrentNavigableMap Delayed Executor ExecutorService ForkJoinPool.ForkJoinWorkerThreadFactory ForkJoinPool.ManagedBlocker Future RejectedExecutionHandler RunnableFuture RunnableScheduledFuture ScheduledExecutorService ScheduledFuture ThreadFactory TransferQueue AbstractExecutorService ArrayBlockingQueue ConcurrentHashMap ConcurrentLinkedDeque ConcurrentLinkedQueue ConcurrentSkipListMap ConcurrentSkipListSet CopyOnWriteArrayList CopyOnWriteArraySet CountDownLatch CyclicBarrier DelayQueue Exchanger ExecutorCompletionService Executors ForkJoinPool ForkJoinTask ForkJoinWorkerThread FutureTask LinkedBlockingDeque LinkedBlockingQueue LinkedTransferQueue Phaser PriorityBlockingQueue RecursiveAction RecursiveTask ScheduledThreadPoolExecutor Semaphore SynchronousQueue ThreadLocalRandom ThreadPoolExecutor ThreadPoolExecutor.AbortPolicy ThreadPoolExecutor.CallerRunsPolicy ThreadPoolExecutor.DiscardOldestPolicy ThreadPoolExecutor.DiscardPolicy TimeUnit BrokenBarrierException CancellationException ExecutionException RejectedExecutionException TimeoutException
-
----
-
-# Concurrency is easy (Clojure)
-
-- Atoms: atom swap! reset! compare-and-set!
-- Futures: future future-{call, done?, cancel, cancelled?} future?
-- Threads: bound-fn bound-fn* {get, push, pop}-thread-bindings thread-bound?
-- Misc: locking pcalls pvalues pmap seque promise deliver
-
----
-
-class: center, middle
+# Questions?
 
 ![](http://imgs.xkcd.com/comics/lisp.jpg "We lost the documentation on quantum mechanics.  You'll have to decode the regexes yourself.")
 
 http://johnchapin.boostrot.net/dbc-clojure/
-
----
-
-# Questions?
 
 ???
 
